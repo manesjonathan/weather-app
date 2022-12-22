@@ -9,11 +9,34 @@ html body {
   padding: 0;
 }
 html body main {
+  min-height: 95vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+}
+html body main .chart-container {
+  background: rgba(255, 255, 255, 0);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  border-radius: 10px;
+  width: 90%;
 }
 html body main .center {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+}
+html body main .center input {
+  width: 50vw;
+  box-sizing: border-box;
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 4px;
+  background-color: white;
+  background-image: url("../image/search-solid.svg");
+  background-position: 10px 10px;
+  background-size: 1.25rem;
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
 }
 html body main .weather-section {
   display: flex;
@@ -25,21 +48,13 @@ html body main .weather-section .inner-section {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
   margin: 2%;
+  background: rgba(255, 255, 255, 0);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  border-radius: 10px;
 }
 html body main .weather-section .inner-section article img {
   width: 75%;
   height: auto;
-}
-html body main .chart-canvas {
-  width: 100%;
-}
-
-/* @media screen and (min-width: 992px) {
-  .weather-section{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
- *//*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */

@@ -9,12 +9,36 @@ html {
     padding: 0;
 
     main {
+      min-height: 95vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
 
+      .chart-container {
+        background: rgba(255, 255, 255, 0);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(4px);
+        border-radius: 10px;
+        width: 90%;
+      }
       .center {
         display: flex;
-        justify-content: center;
+        flex-direction: row;
+        input {
+          width: 50vw;
+          box-sizing: border-box;
+          border: 2px solid rgb(255, 255, 255);
+          border-radius: 4px;
+          background-color: white;
+          background-image: url("../image/search-solid.svg");
+          background-position: 10px 10px;
+          background-size: 1.25rem;
+          background-repeat: no-repeat;
+          padding: 12px 20px 12px 40px;
+        }
       }
+
       .weather-section {
         display: flex;
         flex-direction: column;
@@ -25,8 +49,11 @@ html {
           display: flex;
           flex-direction: row;
           justify-content: center;
-          background-color: rgb(0, 0, 0, 0.5);
           margin: 2%;
+          background: rgba(255, 255, 255, 0);
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+          backdrop-filter: blur(4px);
+          border-radius: 10px;
           article {
             img {
               width: 75%;
@@ -35,17 +62,6 @@ html {
           }
         }
       }
-      .chart-canvas {
-        width: 100%;
-      }
     }
   }
 }
-
-/* @media screen and (min-width: 992px) {
-  .weather-section{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
- */

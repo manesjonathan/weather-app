@@ -1,9 +1,9 @@
-import { API_KEY, FULL_RESPONSE } from "./config.js";
+import { API_KEY } from "./config.js";
+import { calculateTemp } from "./util.js";
 
 const cityInput = document.querySelector(".city");
 const submitButton = document.querySelector(".submit-button");
 const sectionWeather = document.querySelector(".weather-section");
-const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 // Background
 const urlDay = "url(../assets/image/day.webp)";
@@ -16,17 +16,11 @@ if (isDayTime === true) {
     document.body.style.backgroundImage = urlNight;
 }
 
-// Chart
-const canvas = document.querySelector(".chart-canvas")
-const context = canvas.getContext("2d");
-let heightRatio = 0.25;
-canvas.height = window.innerWidth * heightRatio;
-
 
 // Local Storage
 //localStorage.clear();
 let savedCity = JSON.parse(localStorage.getItem("user-city"));
-if (savedCity[0] !== null) {
+if (savedCity !== null) {
     cityInput.value = savedCity[0];
     //getWeatherForecastByCity(savedCity[0]);
 }
@@ -47,64 +41,43 @@ submitButton.addEventListener("click", () => {
 });
 
 
-function displayWeather(city, weatherForecast5Days) {
-    console.log(weatherForecast5Days);
+function displayWeather(city, dayList) {
+    const dataList = calculateTemp(dayList);
     const innerSection = document.createElement("section");
     innerSection.className = "inner-section";
 
     // Display City
     const cityDisplay = document.createElement("h3");
-
     cityDisplay.innerText = city;
     innerSection.appendChild(cityDisplay);
 
-    let dataList = [];
-    let weatherObjectList = [];
-
-    // Iterate throw WeatherList
-    for (let i = 0; i < weatherForecast5Days["list"].length;) {
-        let weatherObject = weatherForecast5Days["list"][i];
-        let date = new Date(weatherObject.dt * 1000);
-        let day = weekday[date.getDay()];
-        let weatherObjectTemp = tempConverter(weatherObject["main"].temp);
-        weatherObjectList.push({ day: day, temp: weatherObjectTemp });
-        i++;
-    }
-
-    for (let i = 0; i < weatherForecast5Days["list"].length; i += 8) {
-
-        let weatherObject = weatherForecast5Days["list"][i];
-
-        console.log(weatherObject);
-
+    for (let i = 0; i < dataList.length; i++) {
+        let weatherObject = dataList[i];
         // Create Article
         const article = document.createElement("article");
         innerSection.appendChild(article);
 
         // Display Image
         const img = document.createElement("img");
-        let imageSource = weatherObject.weather[0].icon;
+        let imageSource = weatherObject[1].icon;
         let imageUrl = `https://openweathermap.org/img/wn/${imageSource}@2x.png`;
         img.setAttribute("src", imageUrl)
         article.appendChild(img);
 
         // Display Temperature
         const tempDisplay = document.createElement("h2");
-        let temp = tempConverter(weatherObject.main.temp);
+        let temp = weatherObject[1].average.toFixed(1);
         tempDisplay.innerText = temp + "°C";
         article.appendChild(tempDisplay);
 
         // Display Date
         const dayDisplay = document.createElement("h4");
-        let date = new Date(weatherObject.dt * 1000);
-        let day = weekday[date.getDay()];
-        dayDisplay.innerText = day;
+        dayDisplay.innerText = weatherObject[0];
         article.appendChild(dayDisplay);
 
         sectionWeather.appendChild(innerSection);
-
-        dataList.push({ day: day, temp: temp });
     }
+
     drawChart(dataList);
 }
 
@@ -113,28 +86,23 @@ async function getWeatherForecastByCity(cityList) {
     sectionWeather.innerHTML = null;
 
     const result = Array.isArray(cityList);
-
     if (result) {
         for (let i = 0; i < cityList.length; i++) {
             let city = cityList[i];
-            /*      let coordinates = await getCoordinates(city);
-                 let lat = coordinates[0];
-                 let lon = coordinates[1];
-                 let weatherForecast5Days = await getWeather(lat, lon); */
+            let coordinates = await getCoordinates(city);
+            let lat = coordinates[0];
+            let lon = coordinates[1];
+            let weatherForecast5Days = await getWeather(lat, lon);
 
-            let weatherForecast5Days = FULL_RESPONSE;
             displayWeather(city, weatherForecast5Days);
-
         }
     } else {
-        /*         let coordinates = await getCoordinates(cityList);
-                let lat = coordinates[0];
-                let lon = coordinates[1];
-                let weatherForecast5Days = await getWeather(lat, lon); */
+        let coordinates = await getCoordinates(cityList);
+        let lat = coordinates[0];
+        let lon = coordinates[1];
+        let weatherForecast5Days = await getWeather(lat, lon);
 
-        //let weatherForecast5Days = FULL_RESPONSE;
         displayWeather(cityList, weatherForecast5Days);
-
     }
 }
 
@@ -177,37 +145,55 @@ async function getWeather(lat, lon) {
         window.alert(error);
     }
 }
-
-function tempConverter(temp) {
-    return Math.floor(temp - 273.15);
-}
-
+// Chart
+const canvas = document.querySelector(".chart-canvas")
+const context = canvas.getContext("2d");
 function drawChart(datalist) {
+    Chart.defaults.global.defaultFontColor = '#fff';
+
+    let options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                ticks: {
+                    color: "red"
+                }
+            },
+            y: {
+                ticks: {
+                    color: "green"
+                }
+            },
+            xAxes: [{
+                gridLines: {
+                    display: false,
+                }
+            }],
+            yAxes: [{
+                gridLines: {
+                    display: false,
+                }
+            }]
+        }
+    }
+    console.log(datalist)
     new Chart(context, {
         type: "line",
         data: {
-            labels: datalist.map(data => data.day),
+            labels: datalist.map(data => data[0]),
             datasets: [
                 {
                     label: "Temperature by day",
-                    data: datalist.map(data => data.temp),
+                    data: datalist.map(data => data[1].average),
                     fill: false,
                     borderColor: 'rgb(75, 192, 192)',
                     tension: 0.50,
-                    borderWidth: 5
+                    borderWidth: 3
                 }
             ],
         },
-        options: {
-            plugins: {
-                legend: { display: false },
+        options: options,
 
-            }
-        }
     });
 }
-
-window.addEventListener('resize', function (event) {
-    let heightRatio = 0.75;
-    canvas.height = window.innerWidth.width * heightRatio;
-}, true);
