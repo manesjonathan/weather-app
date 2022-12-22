@@ -5,22 +5,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="This is a website" />
+    <meta name="description" content="This is a weather app" />
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script defer src="assets/js/script.js" type="module"></script>
     <script defer src="https://kit.fontawesome.com/26838d0dd7.js" crossorigin="anonymous"></script>
 
-    <title>Website</title>
+    <title>Weather app</title>
 </head>
 
 <body>
     <main>
         <div class="center">
-            <input type="search" name="city" class="city">
+            <input type="search" name="city" class="city" placeholder="Search">
             <button class="submit-button"><i class="fa-solid fa-cloud"></i> Submit</button>
         </div>
-
         <section class="weather-section"></section>
         <div class="chart-container">
             <canvas class="chart-canvas" hidden></canvas>

@@ -33,6 +33,7 @@ export function drawChart(datalist) {
             }]
         }
     }
+
     new Chart(context, {
         type: "line",
         data: {

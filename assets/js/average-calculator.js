@@ -2,7 +2,7 @@ const WEEKDAY = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday
 
 export function calculateTemp(weatherForecast5Days) {
     let tempArray = [];
-    let temperatureFinal = {};
+    let finalWeatherObject = {};
 
     // Iterate throw WeatherList
     for (let i = 0; i < weatherForecast5Days["list"].length; i++) {
@@ -48,7 +48,7 @@ export function calculateTemp(weatherForecast5Days) {
                 break;
         }
 
-        temperatureFinal[day] = {
+        finalWeatherObject[day] = {
             day,
             count: 0,
             sum: 0,
@@ -58,15 +58,15 @@ export function calculateTemp(weatherForecast5Days) {
 
         tempArray.forEach(element => {
             if (day == element.day) {
-                temperatureFinal[element.day].sum += element.temp;
-                temperatureFinal[element.day].count++;
-                temperatureFinal[element.day].average = temperatureFinal[element.day].sum / temperatureFinal[element.day].count;
-                temperatureFinal[element.day].icon = element.icon;
+                finalWeatherObject[element.day].sum += element.temp;
+                finalWeatherObject[element.day].count++;
+                finalWeatherObject[element.day].average = finalWeatherObject[element.day].sum / finalWeatherObject[element.day].count;
+                finalWeatherObject[element.day].icon = element.icon;
             }
         });
     }
 
-    return Object.entries(temperatureFinal);
+    return Object.entries(finalWeatherObject);
 }
 
 function tempConverter(temp) {
