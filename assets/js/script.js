@@ -1,5 +1,6 @@
+import { drawChart } from "./chart.js";
 import { API_KEY } from "./config.js";
-import { calculateTemp } from "./util.js";
+import { calculateTemp } from "./average-calculator.js";
 
 const cityInput = document.querySelector(".city");
 const submitButton = document.querySelector(".submit-button");
@@ -16,13 +17,11 @@ if (isDayTime === true) {
     document.body.style.backgroundImage = urlNight;
 }
 
-
 // Local Storage
-//localStorage.clear();
+//localStorage.clear()
 let savedCity = JSON.parse(localStorage.getItem("user-city"));
 if (savedCity !== null) {
     cityInput.value = savedCity[0];
-    //getWeatherForecastByCity(savedCity[0]);
 }
 
 submitButton.addEventListener("click", () => {
@@ -40,22 +39,23 @@ submitButton.addEventListener("click", () => {
     getWeatherForecastByCity(cityList);
 });
 
-
 function displayWeather(city, dayList) {
     const dataList = calculateTemp(dayList);
     const innerSection = document.createElement("section");
     innerSection.className = "inner-section";
 
+    const div = document.createElement("div");
+    div.className = "div-day";
+
     // Display City
     const cityDisplay = document.createElement("h3");
-    cityDisplay.innerText = city;
-    innerSection.appendChild(cityDisplay);
+    cityDisplay.innerText = city.toUpperCase();
+    div.appendChild(cityDisplay);
 
     for (let i = 0; i < dataList.length; i++) {
         let weatherObject = dataList[i];
         // Create Article
         const article = document.createElement("article");
-        innerSection.appendChild(article);
 
         // Display Image
         const img = document.createElement("img");
@@ -75,9 +75,11 @@ function displayWeather(city, dayList) {
         dayDisplay.innerText = weatherObject[0];
         article.appendChild(dayDisplay);
 
-        sectionWeather.appendChild(innerSection);
+        innerSection.appendChild(article);
+        div.appendChild(innerSection);
     }
 
+    sectionWeather.appendChild(div);
     drawChart(dataList);
 }
 
@@ -144,56 +146,4 @@ async function getWeather(lat, lon) {
     } catch (error) {
         window.alert(error);
     }
-}
-// Chart
-const canvas = document.querySelector(".chart-canvas")
-const context = canvas.getContext("2d");
-function drawChart(datalist) {
-    Chart.defaults.global.defaultFontColor = '#fff';
-
-    let options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            x: {
-                ticks: {
-                    color: "red"
-                }
-            },
-            y: {
-                ticks: {
-                    color: "green"
-                }
-            },
-            xAxes: [{
-                gridLines: {
-                    display: false,
-                }
-            }],
-            yAxes: [{
-                gridLines: {
-                    display: false,
-                }
-            }]
-        }
-    }
-    console.log(datalist)
-    new Chart(context, {
-        type: "line",
-        data: {
-            labels: datalist.map(data => data[0]),
-            datasets: [
-                {
-                    label: "Temperature by day",
-                    data: datalist.map(data => data[1].average),
-                    fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.50,
-                    borderWidth: 3
-                }
-            ],
-        },
-        options: options,
-
-    });
 }

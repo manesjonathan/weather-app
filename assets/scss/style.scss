@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css2?family=Unbounded);
+
 html {
   min-height: 100%;
 
@@ -7,6 +9,7 @@ html {
     background-repeat: no-repeat;
     background-position: center;
     padding: 0;
+    font-family: "Unbounded", sans-serif;
 
     main {
       min-height: 95vh;
@@ -15,51 +18,89 @@ html {
       align-items: center;
       justify-content: center;
 
-      .chart-container {
-        background: rgba(255, 255, 255, 0);
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-        backdrop-filter: blur(4px);
-        border-radius: 10px;
-        width: 90%;
-      }
       .center {
         display: flex;
         flex-direction: row;
         input {
           width: 50vw;
           box-sizing: border-box;
-          border: 2px solid rgb(255, 255, 255);
-          border-radius: 4px;
+          border: 2px solid rgba(255, 255, 255, 0);
+          border-radius: 10px;
           background-color: white;
           background-image: url("../image/search-solid.svg");
           background-position: 10px 10px;
           background-size: 1.25rem;
           background-repeat: no-repeat;
           padding: 12px 20px 12px 40px;
+          font-family: "Unbounded", sans-serif;
+        }
+
+        button {
+          margin-left: 2%;
+          border: 2px solid rgba(255, 255, 255, 0);
+          border-radius: 10px;
+          background-color: white;
+          color: rgb(14, 46, 87);
+          font-family: "Unbounded", sans-serif;
         }
       }
 
       .weather-section {
         display: flex;
         flex-direction: column;
-        padding: 2%;
+        padding: 1%;
         justify-content: center;
-
-        .inner-section {
+        .div-day {
           display: flex;
-          flex-direction: row;
-          justify-content: center;
+          flex-direction: column;
           margin: 2%;
-          background: rgba(255, 255, 255, 0);
-          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-          backdrop-filter: blur(4px);
-          border-radius: 10px;
-          article {
-            img {
-              width: 75%;
-              height: auto;
+
+          .inner-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            justify-content: center;
+            padding: 2%;
+            background: rgba(255, 255, 255, 0);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(4px);
+            border-radius: 10px;
+            article {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              padding: 2%;
+              img {
+                width: 75%;
+                height: auto;
+              }
             }
           }
+        }
+      }
+
+      .chart-container {
+        background: rgba(255, 255, 255, 0);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(4px);
+        border-radius: 10px;
+        width: 75vw;
+        align-self: center;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 780px) {
+  html {
+    body {
+      main {
+        .weather-section {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .weather-section > :only-child {
+          grid-column-start: 2;
         }
       }
     }

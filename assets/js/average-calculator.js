@@ -1,4 +1,4 @@
-import { WEEKDAY } from "./config.js";
+const WEEKDAY = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 export function calculateTemp(weatherForecast5Days) {
     let tempArray = [];
