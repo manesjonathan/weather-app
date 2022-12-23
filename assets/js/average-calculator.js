@@ -1,6 +1,6 @@
 const WEEKDAY = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-export function calculateTemp(weatherForecast5Days) {
+export function averageCalculator(weatherForecast5Days) {
     let tempArray = [];
     let finalWeatherObject = {};
 

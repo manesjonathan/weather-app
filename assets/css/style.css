@@ -68,6 +68,7 @@ html body main .weather-section .div-day .inner-section {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-content: center;
+  vertical-align: middle;
   padding: 2%;
   background: rgba(255, 255, 255, 0);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
@@ -79,10 +80,11 @@ html body main .weather-section .div-day .inner-section article {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  vertical-align: middle;
   padding: 2%;
 }
 html body main .weather-section .div-day .inner-section article img {
-  width: 75%;
+  min-width: 75%;
   height: auto;
 }
 html body main .chart-container {

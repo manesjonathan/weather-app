@@ -1,5 +1,5 @@
 import { API_KEY } from "./config.js";
-import { calculateTemp } from "./average-calculator.js";
+import { averageCalculator } from "./average-calculator.js";
 import { drawChart } from "./chart.js";
 
 const cityInput = document.querySelector(".city");
@@ -39,6 +39,7 @@ submitButton.addEventListener("click", () => {
     getWeatherForecastByCity(cityList);
 });
 
+
 async function getWeatherForecastByCity(cityList) {
     // Clean up
     sectionWeather.innerHTML = null;
@@ -67,7 +68,7 @@ async function getWeatherForecastByCity(cityList) {
 /**
  * This function fetch coordinates for a given city
  * @param {String} city 
- * @returns Array with latitude (lat) and longitude (lon) for a given city.
+ * @returns Array with latitude (lat) and longitude (lon)
  */
 async function getCoordinates(city) {
     const GEOCODING_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`
@@ -88,13 +89,13 @@ async function getCoordinates(city) {
  * This function get the weather for given latitude (lat) and longitude (lon)
  * @param {Number} lat 
  * @param {Number} lon 
- * @returns Json object that contains weather for a given latitude and longitude 
+ * @returns Json object that contains weather forecast 5 days 
  */
 async function getWeather(lat, lon) {
-    const DAILY_FORECAST5 = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+    const DAILY_FORECAST_5_URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
 
     try {
-        const request = await fetch(DAILY_FORECAST5);
+        const request = await fetch(DAILY_FORECAST_5_URL);
         const response = await request.json();
 
         return response;
@@ -104,8 +105,8 @@ async function getWeather(lat, lon) {
     }
 }
 
-function displayWeather(city, dayList) {
-    const dataList = calculateTemp(dayList);
+function displayWeather(city, weatherForecast5Days) {
+    const dataList = averageCalculator(weatherForecast5Days);
     const innerSection = document.createElement("section");
     innerSection.className = "inner-section";
 
