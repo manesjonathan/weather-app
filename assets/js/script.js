@@ -71,7 +71,7 @@ async function getWeatherForecastByCity(cityList) {
  * @returns Array with latitude (lat) and longitude (lon)
  */
 async function getCoordinates(city) {
-    const GEOCODING_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`
+    const GEOCODING_URL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`
     try {
         const request = await fetch(GEOCODING_URL);
         const response = await request.json();
