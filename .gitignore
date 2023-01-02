@@ -1,4 +1,4 @@
-assets/js/config.js
+src/assets/js/config.js
 node_modules/.package-lock.json
 node_modules/.bin/esbuild
 node_modules/.bin/esbuild.cmd
