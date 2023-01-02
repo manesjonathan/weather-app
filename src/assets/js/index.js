@@ -2,19 +2,20 @@ import { API_KEY } from "./config.js";
 import { averageCalculator } from "./average-calculator.js";
 import { drawChart } from "./chart.js";
 
+
 const cityInput = document.querySelector(".city");
 const submitButton = document.querySelector(".submit-button");
 const sectionWeather = document.querySelector(".weather-section");
 
 // Background
-const urlDay = "url(../assets/image/day.webp)";
-const urlNight = "url(../assets/image/night.webp)";
+const urlDay = new URL("../image/day.webp", import.meta.url).pathname;
+const urlNight = new URL("../image/night.webp", import.meta.url).pathname;
 const hours = new Date().getHours()
 const isDayTime = hours > 8 && hours < 20;
 if (isDayTime === true) {
-    document.body.style.backgroundImage = urlDay;
+    document.body.style.backgroundImage = `url(${urlDay})`;
 } else {
-    document.body.style.backgroundImage = urlNight;
+    document.body.style.backgroundImage = `url(${urlNight})`;
 }
 
 // Local Storage
